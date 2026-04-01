@@ -7,60 +7,82 @@
 !(function($) {
   "use strict";
 
-  // Nav Menu
-  $(document).on('click', '.nav-menu a, .mobile-nav a', function(e) {
+  var sectionSelector = '#header, section[id]';
+
+  // Force visible sections in case stale template CSS keeps them hidden.
+  $('section').addClass('section-show').css({
+    opacity: 1,
+    visibility: 'visible',
+    top: 'auto',
+    bottom: 'auto'
+  });
+
+  function setActiveNav(hash) {
+    $('.nav-menu li, .mobile-nav li').removeClass('active');
+    $('.nav-menu a[href="' + hash + '"]').closest('li').addClass('active');
+    $('.mobile-nav a[href="' + hash + '"]').closest('li').addClass('active');
+  }
+
+  function closeMobileNav() {
+    if ($('body').hasClass('mobile-nav-active')) {
+      $('body').removeClass('mobile-nav-active');
+      $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+      $('.mobile-nav-overly').fadeOut();
+    }
+  }
+
+  function updateNavByScroll() {
+    var scrollPos = $(window).scrollTop() + 120;
+    var activeHash = '#header';
+
+    $(sectionSelector).each(function() {
+      var top = $(this).offset().top;
+      var bottom = top + $(this).outerHeight();
+      if (scrollPos >= top && scrollPos < bottom) {
+        activeHash = '#' + $(this).attr('id');
+      }
+    });
+
+    setActiveNav(activeHash);
+  }
+
+  // Smooth anchor navigation
+  $(document).on('click', '.nav-menu a, .mobile-nav a, #header .scroll-down', function(e) {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var hash = this.hash;
-      var target = $(hash);
-      if (target.length) {
+      var $target = $(hash);
+
+      if ($target.length) {
         e.preventDefault();
+        var targetOffset = hash === '#header' ? 0 : $target.offset().top - 12;
 
-        if ($(this).parents('.nav-menu, .mobile-nav').length) {
-          $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-          $(this).closest('li').addClass('active');
+        $('html, body').animate({
+          scrollTop: Math.max(targetOffset, 0)
+        }, 550, 'swing', function() {
+          updateNavByScroll();
+          setActiveNav(hash);
+        });
+
+        closeMobileNav();
+        if (history.pushState) {
+          history.pushState(null, null, hash);
         }
-
-        if (hash == '#header') {
-          $('#header').removeClass('header-top');
-          $("section").removeClass('section-show');
-          return;
-        }
-
-        if (!$('#header').hasClass('header-top')) {
-          $('#header').addClass('header-top');
-          setTimeout(function() {
-            $("section").removeClass('section-show');
-            $(hash).addClass('section-show');
-          }, 350);
-        } else {
-          $("section").removeClass('section-show');
-          $(hash).addClass('section-show');
-        }
-
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-          $('.mobile-nav-overly').fadeOut();
-        }
-
         return false;
-
       }
     }
   });
 
-  // Activate/show sections on load with hash links
-  if (window.location.hash) {
-    var initial_nav = window.location.hash;
-    if ($(initial_nav).length) {
-      $('#header').addClass('header-top');
-      $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-      $('.nav-menu, .mobile-nav').find('a[href="' + initial_nav + '"]').parent('li').addClass('active');
-      setTimeout(function() {
-        $("section").removeClass('section-show');
-        $(initial_nav).addClass('section-show');
-      }, 350);
-    }
+  $(window).on('load scroll resize', function() {
+    updateNavByScroll();
+  });
+
+  if (window.location.hash && $(window.location.hash).length) {
+    setTimeout(function() {
+      var targetOffset = $(window.location.hash).offset().top - 12;
+      $('html, body').scrollTop(Math.max(targetOffset, 0));
+      updateNavByScroll();
+      setActiveNav(window.location.hash);
+    }, 150);
   }
 
   // Mobile Navigation
