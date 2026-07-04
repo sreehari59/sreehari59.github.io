@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* Dark-first: html has class="dark". Tailwind v4 dark variant keyed to .dark */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Near-black canvas + brand accents */
+  --color-void: #06080f;
+  --color-void-2: #090c17;
+  --color-cyan-glow: #22d3ee;
+  --color-violet-glow: #8b5cf6;
+
+  --shadow-glow-cyan: 0 20px 70px -25px rgba(34, 211, 238, 0.35);
+  --shadow-glow-violet: 0 20px 70px -25px rgba(139, 92, 246, 0.3);
+}
+
+:root {
+  --background: #06080f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-void);
+  color: #e4e4e7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Section anchor offset for the sticky nav */
+section[id],
+[data-section] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Thin custom scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.25) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+}
+
+/* Utility: gradient text */
+.text-gradient {
+  background-image: linear-gradient(120deg, var(--color-cyan-glow), var(--color-violet-glow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle grid texture overlay for depth (used behind sections) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.25);
+  color: #fff;
+}

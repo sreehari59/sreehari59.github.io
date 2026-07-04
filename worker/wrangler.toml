@@ -1,0 +1,10 @@
+name = "sreehari-portfolio-chat"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+
+# Origins allowed to call the chat endpoint (CORS). Update if the site URL changes.
+[vars]
+ALLOWED_ORIGINS = "https://sreehari59.github.io,http://localhost:5173,http://localhost:4173"
+
+# ANTHROPIC_API_KEY is a SECRET — never put it here.
+# Set it with:  wrangler secret put ANTHROPIC_API_KEY
