@@ -7,7 +7,8 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/sreeharipradeep",
   github: "https://www.github.com/sreehari59",
   website: "https://sreehari59.github.io",
-  resumePdf: "/assets/pdf/CV.pdf",
+  // BASE_URL is "/portfolio/" in this build, so the PDF resolves under the subpath.
+  resumePdf: `${import.meta.env.BASE_URL}assets/pdf/CV.pdf`,
   tagline:
     "I design, ship, and orchestrate multi-agent AI systems end-to-end — from RAG and graph retrieval through agent runtimes, voice and email, all the way to the React frontend.",
   shortBio:

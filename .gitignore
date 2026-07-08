@@ -1,1 +1,19 @@
 .idea
+.DS_Store
+
+# dependencies (each subproject has its own)
+node_modules/
+web/node_modules/
+portfolio-v2/node_modules/
+worker/node_modules/
+
+# build artifacts (the assembled /docs IS committed — Pages serves it)
+portfolio-v2/.next/
+portfolio-v2/out/
+web/dist/
+*.tsbuildinfo
+
+# env / secrets
+.env
+.env.*
+!.env.local.example

@@ -31,6 +31,5 @@ if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = () => {};
 }
 if (!Element.prototype.scrollTo) {
-  // @ts-expect-error jsdom stub
   Element.prototype.scrollTo = () => {};
 }

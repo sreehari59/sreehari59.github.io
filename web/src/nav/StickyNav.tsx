@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { sections, profile } from "@/data/resume";
 import { useActiveSection, useScrollProgress } from "@/lib/useActiveSection";
 import { CommandPalette } from "./CommandPalette";
-import { Command, Github, Linkedin, FileText, Menu, X } from "lucide-react";
+import { Command, Github, Linkedin, FileText, Menu, X, ArrowLeftRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const ids = sections.map((s) => s.id);
@@ -69,6 +69,14 @@ export function StickyNav() {
               >
                 <Command className="size-3.5" /> K
               </button>
+              <a
+                href="/?gate=1"
+                className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-cyan-300"
+                aria-label="Switch view"
+                title="Switch view"
+              >
+                <ArrowLeftRight className="size-4" />
+              </a>
               <a
                 href={profile.linkedin}
                 target="_blank"

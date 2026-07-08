@@ -3,16 +3,17 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 
-// User page served at domain root → base '/'.
-// Build output goes to the repo's /docs folder (GitHub Pages: main /docs).
+// The v3 "portfolio" site is served under /portfolio/ behind the audience gate.
+// Build output goes to the repo's /docs/portfolio folder (GitHub Pages: main /docs).
 export default defineConfig({
-  base: "/",
+  base: "/portfolio/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: { "@": path.resolve(__dirname, "src") },
   },
   build: {
-    outDir: "../docs",
+    // emptyOutDir clears only /docs/portfolio, leaving the gate and /docs/dev intact.
+    outDir: "../docs/portfolio",
     emptyOutDir: true,
   },
   test: {

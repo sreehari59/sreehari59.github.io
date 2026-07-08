@@ -51,8 +51,8 @@ export function repelAccel(
 }
 
 export function buildSwarm(
-  count = swarmTheme.nodeCount,
-  bounds = swarmTheme.bounds,
+  count: number = swarmTheme.nodeCount,
+  bounds: { x: number; y: number; z: number } = swarmTheme.bounds,
   seed = 7,
 ): SwarmState {
   const rand = mulberry32(seed);
