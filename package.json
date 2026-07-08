@@ -4,12 +4,12 @@
   "version": "3.0.0",
   "description": "Sreehari Pradeep Kumar's portfolio — an audience gate that routes developers to a VS Code–style Next.js build (/dev) and everyone else to the Agent Swarm Vite build (/portfolio).",
   "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "install:all": "npm --prefix web install && npm --prefix portfolio-v2 install && npm --prefix worker install",
-    "build:portfolio": "npm --prefix web run build",
-    "build:dev": "npm --prefix portfolio-v2 run build",
+    "build:portfolio": "npm run build -w @portfolio/web",
+    "build:dev": "npm run build -w @portfolio/dev",
     "assemble": "node scripts/assemble.mjs",
     "build": "npm run build:portfolio && npm run build:dev && npm run assemble",
-    "test": "npm --prefix web test"
+    "test": "npm run test -w @portfolio/web"
   }
 }

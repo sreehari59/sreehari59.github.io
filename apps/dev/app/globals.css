@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+  --selection-bg: rgba(16, 185, 129, 0.25);
+  --selection-fg: #052e21;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.18);
+}
+
+.dark {
+  --background: #050507;
+  --foreground: #f4f4f5;
+  --selection-bg: rgba(16, 185, 129, 0.35);
+  --selection-fg: #ffffff;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  background: var(--background);
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   IDE light theme
+   The IDE chrome is authored with dark Tailwind utilities
+   (zinc text, white/black overlays, dark surface hexes). When
+   the app is in light mode (no `.dark` on <html>) we remap those
+   tokens to light equivalents — scoped to `.ide-root` so nothing
+   leaks into the rest of the site. Attribute selectors match the
+   literal class token, so no escaping of `[`, `#`, `/` is needed.
+   ============================================================ */
+html:not(.dark) .ide-root {
+  background-color: #ffffff;
+  color: #3f3f46;
+}
+
+/* surfaces */
+html:not(.dark) .ide-root [class~="bg-[#0d1117]"] { background-color: #ffffff; }
+html:not(.dark) .ide-root [class~="bg-[#181b22]"] { background-color: #f4f5f7; }
+html:not(.dark) .ide-root [class~="bg-[#1a1d24]"] { background-color: #eef0f3; }
+html:not(.dark) .ide-root [class~="bg-[#0a0d13]"] { background-color: #f4f5f7; }
+html:not(.dark) .ide-root [class~="bg-black/40"] { background-color: rgba(0, 0, 0, 0.05); }
+html:not(.dark) .ide-root [class~="bg-black/30"] { background-color: rgba(0, 0, 0, 0.05); }
+
+/* overlay fills */
+html:not(.dark) .ide-root [class~="bg-white/[0.06]"] { background-color: rgba(0, 0, 0, 0.06); }
+html:not(.dark) .ide-root [class~="bg-white/[0.05]"] { background-color: rgba(0, 0, 0, 0.05); }
+html:not(.dark) .ide-root [class~="bg-white/[0.04]"] { background-color: rgba(0, 0, 0, 0.045); }
+html:not(.dark) .ide-root [class~="bg-white/[0.02]"] { background-color: rgba(0, 0, 0, 0.03); }
+html:not(.dark) .ide-root [class~="bg-white/[0.015]"] { background-color: rgba(0, 0, 0, 0.025); }
+html:not(.dark) .ide-root [class~="hover:bg-white/[0.06]"]:hover { background-color: rgba(0, 0, 0, 0.07); }
+html:not(.dark) .ide-root [class~="hover:bg-white/[0.04]"]:hover { background-color: rgba(0, 0, 0, 0.05); }
+html:not(.dark) .ide-root [class~="hover:bg-white/[0.03]"]:hover { background-color: rgba(0, 0, 0, 0.04); }
+
+/* text */
+html:not(.dark) .ide-root [class~="text-zinc-100"],
+html:not(.dark) .ide-root [class~="text-white"] { color: #18181b; }
+html:not(.dark) .ide-root [class~="text-zinc-200"] { color: #27272a; }
+html:not(.dark) .ide-root [class~="text-zinc-300"],
+html:not(.dark) .ide-root [class~="text-zinc-300/90"] { color: #3f3f46; }
+html:not(.dark) .ide-root [class~="text-zinc-400"] { color: #52525b; }
+html:not(.dark) .ide-root [class~="text-zinc-500"] { color: #6b7280; }
+html:not(.dark) .ide-root [class~="text-zinc-600"] { color: #9ca3af; }
+html:not(.dark) .ide-root [class~="text-zinc-700"] { color: #cbd0d6; }
+html:not(.dark) .ide-root [class~="hover:text-white"]:hover,
+html:not(.dark) .ide-root [class~="hover:text-zinc-100"]:hover { color: #18181b; }
+html:not(.dark) .ide-root [class~="hover:text-zinc-200"]:hover { color: #27272a; }
+html:not(.dark) .ide-root [class~="hover:text-zinc-300"]:hover { color: #3f3f46; }
+html:not(.dark) .ide-root .group:hover [class~="group-hover:text-white"] { color: #18181b; }
+html:not(.dark) .ide-root .group:hover [class~="group-hover:text-zinc-300"] { color: #3f3f46; }
+html:not(.dark) .ide-root .group:hover [class~="group-hover:text-zinc-500"] { color: #6b7280; }
+
+/* accent text — darkened so it stays legible on white */
+html:not(.dark) .ide-root [class~="text-emerald-400"],
+html:not(.dark) .ide-root [class~="text-emerald-400/80"] { color: #059669; }
+html:not(.dark) .ide-root [class~="text-emerald-300"],
+html:not(.dark) .ide-root [class~="text-emerald-300/90"] { color: #047857; }
+html:not(.dark) .ide-root [class~="text-amber-200"] { color: #b45309; }
+html:not(.dark) .ide-root [class~="text-amber-300"] { color: #d97706; }
+html:not(.dark) .ide-root [class~="text-amber-400/80"],
+html:not(.dark) .ide-root [class~="text-amber-400/70"] { color: #d97706; }
+
+/* borders */
+html:not(.dark) .ide-root [class~="border-black/40"] { border-color: rgba(0, 0, 0, 0.12); }
+html:not(.dark) .ide-root [class~="border-black/30"] { border-color: rgba(0, 0, 0, 0.1); }
+html:not(.dark) .ide-root [class~="border-white/10"] { border-color: rgba(0, 0, 0, 0.1); }
+html:not(.dark) .ide-root [class~="border-white/[0.12]"] { border-color: rgba(0, 0, 0, 0.14); }
+html:not(.dark) .ide-root [class~="border-white/[0.06]"] { border-color: rgba(0, 0, 0, 0.09); }
+html:not(.dark) .ide-root [class~="border-white/[0.04]"] { border-color: rgba(0, 0, 0, 0.07); }
+html:not(.dark) .ide-root [class~="border-white/5"] { border-color: rgba(0, 0, 0, 0.06); }
+
+/* list markers */
+html:not(.dark) .ide-root [class~="marker:text-zinc-600"]::marker,
+html:not(.dark) .ide-root [class~="marker:text-zinc-600"] *::marker { color: #9ca3af; }

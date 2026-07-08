@@ -1,16 +1,13 @@
 .idea
 .DS_Store
 
-# dependencies (each subproject has its own)
-node_modules/
-web/node_modules/
-portfolio-v2/node_modules/
-worker/node_modules/
+# dependencies (npm workspaces hoist to the root node_modules)
+**/node_modules/
 
 # build artifacts (the assembled /docs IS committed — Pages serves it)
-portfolio-v2/.next/
-portfolio-v2/out/
-web/dist/
+apps/dev/.next/
+apps/dev/out/
+apps/web/dist/
 *.tsbuildinfo
 
 # env / secrets
