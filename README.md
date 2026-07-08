@@ -29,26 +29,57 @@ Everything is one static site served from `/docs` on GitHub Pages — there is n
 
 This is an **npm workspaces** monorepo — one `npm install` at the root installs every app and the shared content package, and one root `package-lock.json` covers all of them.
 
-## Quick start (clone → run → replicate)
+## Prerequisites
+
+- Node.js 20+ and npm 10+ (`node -v`, `npm -v`)
+- No database, no Docker, no external services required to run the site — everything works offline in canned-chat mode.
+
+## Running it locally
+
+### 1. Clone and install
 
 ```bash
-# 1. install everything (root + all apps/packages, one lockfile)
+git clone https://github.com/sreehari59/sreehari59.github.io.git
+cd sreehari59.github.io
 npm install
+```
 
-# 2. build everything into /docs
-npm run build
+One install at the repo root sets up all three apps and the shared content package (npm workspaces).
 
-# 3. preview the assembled site locally
-npx serve docs          # then open http://localhost:3000
+### 2. Run a site in dev mode
+
+Pick whichever site you're working on — each runs standalone with hot reload:
+
+```bash
+# "Just browsing" — Agent Swarm (Vite), http://localhost:5173
+npm run dev -w @portfolio/web
+
+# "I'm a developer" — VS Code–style IDE (Next.js), http://localhost:3000/dev
+npm run dev -w @portfolio/dev
+
+# Chat backend (Cloudflare Worker), local endpoint printed on start
+npm run dev -w @portfolio/worker
+```
+
+You don't need the worker running to develop `web` or `dev` — without a chat URL configured, both sites fall back to instant canned Q&A (see [`packages/content/src/canned.ts`](packages/content/src/canned.ts)), so the chat UI is fully testable with zero setup.
+
+To open the front-door **gate** itself, open `apps/gate/index.html` directly in a browser, or preview the assembled `docs/` (step 4 below).
+
+### 3. Run the tests / typecheck
+
+```bash
+npm test                            # vitest for apps/web (15 tests)
+npm run typecheck -w @portfolio/worker
+```
+
+### 4. Build everything and preview the assembled site
+
+```bash
+npm run build     # Vite build -> docs/portfolio, Next static export -> docs/dev, then assemble
+npx serve docs    # preview at http://localhost:3000 — same layout GitHub Pages serves
 ```
 
 `npm run build` runs, in order: the Vite build (→ `docs/portfolio`), the Next static export (→ `docs/dev`), then `scripts/assemble.mjs`, which copies the export into `docs/dev`, drops the gate at `docs/index.html`, and writes `docs/.nojekyll`.
-
-### Developing a single site
-- **Portfolio (v3):** `npm run dev -w @portfolio/web` (Vite dev server)
-- **Developer (v2):** `npm run dev -w @portfolio/dev` (Next dev server, http://localhost:3000/dev)
-- **Worker:** `npm run dev -w @portfolio/worker` (`wrangler dev`)
-- **Gate:** open `apps/gate/index.html` directly, or preview the assembled `docs/`.
 
 ## Making it yours (fork checklist)
 
